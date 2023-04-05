@@ -1,0 +1,21 @@
+.container {
+  min-height: 100vh;
+  padding: 0 0.5rem;
+}
+
+.header {
+  margin-bottom: 1rem;
+}
+
+.main {
+  display: grid;
+  grid-template-columns: 4fr 8fr;
+}
+
+.categories {
+
+}
+
+.gamesList {
+
+}

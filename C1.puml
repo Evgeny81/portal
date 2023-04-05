@@ -1,0 +1,14 @@
+@startuml
+actor User
+rectangle Portal
+database "Supabase" {
+}
+rectangle Server {
+}
+User --> "Supabase": Request
+User --> Portal: Request
+User <-- "Supabase": Role
+Portal --> Server: Request
+Portal <-- Server: Embedded game
+
+@enduml

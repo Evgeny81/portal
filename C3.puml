@@ -1,0 +1,143 @@
+@startuml
+
+class GameController {
+  - gameModel: GameModel
+  - gameView: GameView
+  + play(gameId: int, user: User): void
+  + editGame(gameId: int, user: User): void
+  + buyGame(gameId: int, user: User): void
+  + viewComments(gameId: int, user: User): void
+  + addComment(gameId: int, commentText: string, user: User): void
+}
+
+class GameModel {
+  - gameId: int
+  - title: string
+  - description: string
+  - category: string
+  - tags: string[]
+  - price: int
+  - isPurchased: bool
+  - comments: Comment[]
+  + getGame(gameId: int): Game
+  + updateGame(gameId: int, game: Game): void
+  + purchaseGame(gameId: int, user: User): void
+  + getComments(gameId: int): Comment[]
+  + addComment(gameId: int, comment: Comment, user: User): void
+}
+
+class GameView {
+  + displayGame(game: Game, user: User): void
+  + displayComments(comments: Comment[], user: User): void
+  + displayErrorMessage(message: string): void
+}
+
+class Game {
+  - id: int
+  - title: string
+  - description: string
+  - category: string
+  - tags: string[]
+  - price: int
+  - isPurchased: bool
+}
+
+class Comment {
+  - id: int
+  - text: string
+  - date: date
+}
+
+class User {
+  - id: int
+  - name: string
+  - email: string
+  - password: string
+  - role: string
+  - games: Game[]
+  + register(): void
+  + viewCategories(): void
+  + search(): void
+  + playGame(gameId: int, controller: GameController): void
+  + editProfile(controller: GameController): void
+  + addGame(game: Game): void
+  + removeGame(gameId: int): void
+  + hasGame(gameId: int): bool
+}
+
+class Admin {
+  - user: User
+  + banUser(userId: int, controller: AdminController): void
+  + editUser(userId: int, controller: AdminController): void
+  + resendLoginLink(userId: int, controller: AdminController): void
+  + createGame(game: Game, controller: AdminController): void
+  + updateGame(gameId: int, game: Game, controller: AdminController): void
+  + deleteGame(gameId: int, controller: AdminController): void
+}
+
+class Publisher {
+  - user: User
+  + registerGame(game: Game, controller: PublisherController): void
+  + pushGame(gameId: int, controller: PublisherController): void
+  + moderateContent(gameId: int, controller: PublisherController): void
+  + viewAnalytics(gameId: int, controller: PublisherController): void
+}
+
+class UserController {
+  - user: User
+  - gameController: GameController
+  + register(): void
+  + viewCategories(): void
+  + search(): void
+  + playGame(gameId: int): void
+  + editProfile(): void
+}
+
+class AdminController {
+  - admin: Admin
+  - gameController: GameController
+  + banUser(userId: int): void
+  + editUser(userId: int): void
+  + resendLoginLink(userId: int): void
+  + createGame(game: Game): void
+  + updateGame(gameId: int, game: Game): void
+  + deleteGame(gameId: int): void
+}
+
+class PublisherController {
+  - publisher: Publisher
+  - gameController: GameController
+  + registerGame(game: Game): void
+  + pushGame(gameId: int): void
+  + moderateContent(gameId: int): void
+  + viewAnalytics(gameId: int): void
+}
+
+class UserController {
+  - user: User
+  - gameController: GameController
+  + register(): void
+  + viewCategories(): void
+  + search(): void
+  + playGame(gameId: int): void
+  + editProfile(): void
+  + addGame(game: Game): void
+  + removeGame(gameId: int): void
+  + hasGame(gameId: int): bool
+}
+
+UserController --> GameController
+AdminController --> GameController
+PublisherController --> GameController
+GameController --> GameModel
+GameController --> GameView
+GameView --> Game
+GameModel --> Comment
+AdminController --> Admin
+PublisherController --> Publisher
+Admin --|> User
+Publisher --|> User
+User --> GameController
+UserController --> User
+
+@enduml
