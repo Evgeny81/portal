@@ -126,6 +126,44 @@ class UserController {
   + hasGame(gameId: int): bool
 }
 
+class NotificationService {
+    +registerObserver(observer: NotificationObserver)
+    +removeObserver(observer: NotificationObserver)
+    +notifyObservers(notification: Notification)
+}
+
+class NotificationObserver {
+    +update(notification: Notification)
+}
+
+class EmailObserver {
+    +update(notification: Notification)
+}
+
+class SMSObserver {
+    +update(notification: Notification)
+}
+
+class PushObserver {
+    +update(notification: Notification)
+}
+
+class NotificationFactory {
+    +createNotification(type: String, content: String): Notification
+}
+
+class Notification {
+    -type: String
+    -content: String
+}
+
+NotificationService .right.> NotificationObserver : observes
+NotificationObserver <|-- EmailObserver
+NotificationObserver <|-- SMSObserver
+NotificationObserver <|-- PushObserver
+
+NotificationFactory .right.> Notification : creates
+
 UserController --> GameController
 AdminController --> GameController
 PublisherController --> GameController
